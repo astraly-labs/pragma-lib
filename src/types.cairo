@@ -1,5 +1,34 @@
 use starknet::{ContractAddress, ClassHash};
 
+#[derive(Serde, Drop, Copy, PartialEq, starknet::Store)]
+enum RequestStatus {
+    UNINITIALIZED: (),
+    RECEIVED: (),
+    FULFILLED: (),
+    CANCELLED: (),
+    OUT_OF_GAS: (),
+    REFUNDED: (),
+}
+
+#[derive(Serde, Drop, Copy, starknet::Store)]
+struct YieldPoint {
+    expiry_timestamp: u64,
+    capture_timestamp: u64, // timestamp of data capture
+    // (1 day for overnight rates and expiration date for futures)
+    rate: u128, // The calculated yield rate: either overnight rate
+    // or max(0, ((future/spot) - 1) * (365/days to future expiry))
+    source: felt252, // An indicator for the source (str_to_felt encode uppercase one of:
+// "ON" (overnight rate),
+// "FUTURE/SPOT" (future/spot rate),
+// "OTHER" (for future additional data sources))
+}
+
+#[derive(Serde, Drop, Copy, starknet::Store)]
+struct FutureKeyStatus {
+    is_active: bool,
+    expiry_timestamp: u64,
+}
+
 #[derive(Copy, Drop, Serde, starknet::Store)]
 struct BaseEntry {
     timestamp: u64,
