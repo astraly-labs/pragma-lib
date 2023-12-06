@@ -1,6 +1,8 @@
 [package]
 name = "pragma_lib"
 version = "1.0.0"
+description = "Types and Dispatchers to interact with pragma"
+homepage = "https://github.com/astraly-labs/pragma-oracle/tree/main"
 
 [lib]
 

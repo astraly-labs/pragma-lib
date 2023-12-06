@@ -4,8 +4,8 @@ The easiest way to import all dependencies needed to interact with Pragma on Sta
 
 ## Usage
 
-```bash
-scarb add pragma --git https://github.com/astraly-labs/pragma-lib
+```shell
+scarb add pragma_lib --git https://github.com/astraly-labs/pragma-lib
 ```
 
 **BTC/USD Spot Median Price**
