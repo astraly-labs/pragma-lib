@@ -184,7 +184,8 @@ trait IRandomness<TContractState> {
         callback_address: ContractAddress,
         callback_fee_limit: u128,
         publish_delay: u64,
-        num_words: u64
+        num_words: u64,
+        calldata: Array<felt252>
     ) -> u64;
     fn cancel_random_request(
         ref self: TContractState,
@@ -207,6 +208,7 @@ trait IRandomness<TContractState> {
         callback_fee: u128,
         random_words: Span<felt252>,
         proof: Span<felt252>,
+        calldata: Array<felt252>
     );
     fn get_pending_requests(
         self: @TContractState, requestor_address: ContractAddress, offset: u64, max_len: u64
