@@ -29,7 +29,7 @@ struct FutureKeyStatus {
     expiry_timestamp: u64,
 }
 
-#[derive(Copy, Drop, Serde, starknet::Store)]
+#[derive(Copy, Drop, Serde, PartialEq, starknet::Store)]
 struct BaseEntry {
     timestamp: u64,
     source: felt252,
@@ -55,7 +55,7 @@ struct GenericEntry {
     value: u128,
 }
 
-#[derive(Copy, Drop, PartialOrd, Serde)]
+#[derive(Copy, Drop, PartialEq, Serde)]
 struct FutureEntry {
     base: BaseEntry,
     price: u128,

@@ -7,3 +7,4 @@ homepage = "https://github.com/astraly-labs/pragma-oracle/tree/main"
 [lib]
 
 [dependencies]
+starknet = "2.7.1"
