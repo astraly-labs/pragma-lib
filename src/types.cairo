@@ -18,7 +18,7 @@ struct YieldPoint {
     rate: u128, // The calculated yield rate: either overnight rate
     // or max(0, ((future/spot) - 1) * (365/days to future expiry))
     source: felt252, // An indicator for the source (str_to_felt encode uppercase one of:
-// "ON" (overnight rate),
+    // "ON" (overnight rate),
 // "FUTURE/SPOT" (future/spot rate),
 // "OTHER" (for future additional data sources))
 }
@@ -72,6 +72,14 @@ struct EntryStorage {
     price: u128,
 }
 
+#[derive(Drop, Serde, starknet::Store, Copy, Hash, PartialEq, Debug)]
+struct OptionsFeedData {
+    instrument_name: felt252,
+    base_currency_id: felt252,
+    current_timestamp: u64,
+    mark_price: u128,
+}
+
 
 /// Data Types
 /// The value is the `pair_id` of the data
@@ -85,21 +93,21 @@ enum DataType {
     SpotEntry: felt252,
     FutureEntry: (felt252, u64),
     GenericEntry: felt252,
-// OptionEntry: (felt252, felt252),
+    // OptionEntry: (felt252, felt252),
 }
 
 #[derive(Drop, Copy)]
 enum PossibleEntryStorage {
     Spot: u256, //structure SpotEntryStorage
     Future: u256, //structure FutureEntryStorage
-//  Option: OptionEntryStorage, //structure OptionEntryStorage
+    //  Option: OptionEntryStorage, //structure OptionEntryStorage
 }
 
 #[derive(Drop, Copy, Serde)]
 enum SimpleDataType {
     SpotEntry: (),
     FutureEntry: (),
-//  OptionEntry: (),
+    //  OptionEntry: (),
 }
 
 #[derive(Drop, Copy, Serde)]
@@ -107,7 +115,7 @@ enum PossibleEntries {
     Spot: SpotEntry,
     Future: FutureEntry,
     Generic: GenericEntry,
-//  Option: OptionEntry,
+    //  Option: OptionEntry,
 }
 
 
@@ -115,7 +123,7 @@ enum ArrayEntry {
     SpotEntry: Array<SpotEntry>,
     FutureEntry: Array<FutureEntry>,
     GenericEntry: Array<GenericEntry>,
-//  OptionEntry: Array<OptionEntry>,
+    //  OptionEntry: Array<OptionEntry>,
 }
 
 

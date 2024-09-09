@@ -1,7 +1,7 @@
 use starknet::{ContractAddress, ClassHash};
 use pragma_lib::types::{
     DataType, AggregationMode, Currency, Pair, PossibleEntries, Checkpoint, SimpleDataType,
-    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus
+    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData,
 };
 
 #[starknet::interface]
@@ -109,6 +109,9 @@ trait ISummaryStatsABI<TContractState> {
 
 
     fn get_oracle_address(self: @TContractState) -> ContractAddress;
+
+    fn get_options_data(self: @TContractState, instrument_name: felt252) -> OptionsFeedData;
+    fn get_options_data_hash(self: @TContractState, update_data: OptionsFeedData) -> felt252;
 }
 
 #[starknet::interface]
