@@ -2,12 +2,12 @@ use starknet::{ContractAddress, ClassHash};
 
 #[derive(Serde, Drop, Copy, PartialEq, starknet::Store)]
 enum RequestStatus {
-    UNINITIALIZED: (),
-    RECEIVED: (),
-    FULFILLED: (),
-    CANCELLED: (),
-    OUT_OF_GAS: (),
-    REFUNDED: (),
+    UNINITIALIZED,
+    RECEIVED,
+    FULFILLED,
+    CANCELLED,
+    OUT_OF_GAS,
+    REFUNDED,
 }
 
 #[derive(Serde, Drop, Copy, starknet::Store)]
@@ -105,8 +105,8 @@ enum PossibleEntryStorage {
 
 #[derive(Drop, Copy, Serde)]
 enum SimpleDataType {
-    SpotEntry: (),
-    FutureEntry: (),
+    SpotEntry,
+    FutureEntry,
     //  OptionEntry: (),
 }
 
