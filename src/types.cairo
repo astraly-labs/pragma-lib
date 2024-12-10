@@ -173,5 +173,6 @@ struct PragmaPricesResponse {
 enum AggregationMode {
     Median: (),
     Mean: (),
+    ConversionRate,
     Error: (),
 }
