@@ -1,4 +1,5 @@
 use starknet::{ContractAddress, ClassHash};
+use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
 
 #[derive(Serde, Drop, Copy, PartialEq, starknet::Store)]
 enum RequestStatus {
@@ -175,4 +176,29 @@ enum AggregationMode {
     Mean: (),
     ConversionRate,
     Error: (),
+}
+
+#[derive(starknet::Store, Drop, Serde, Copy)]
+pub struct EscalationManagerSettings {
+    pub arbitrate_via_escalation_manager: bool,
+    pub discard_oracle: bool,
+    pub validate_disputers: bool,
+    pub asserting_caller: ContractAddress,
+    pub escalation_manager: ContractAddress,
+}
+
+#[derive(starknet::Store, Drop, Serde, Copy)]
+pub struct Assertion {
+    pub escalation_manager_settings: EscalationManagerSettings,
+    pub asserter: ContractAddress,
+    pub assertion_time: u64,
+    pub settled: bool,
+    pub currency: ERC20ABIDispatcher,
+    pub expiration_time: u64,
+    pub settlement_resolution: bool,
+    pub domain_id: u256,
+    pub identifier: felt252,
+    pub bond: u256,
+    pub callback_recipient: ContractAddress,
+    pub disputer: ContractAddress,
 }

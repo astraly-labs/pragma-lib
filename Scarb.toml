@@ -7,4 +7,5 @@ homepage = "https://github.com/astraly-labs/pragma-oracle/tree/main"
 [lib]
 
 [dependencies]
-starknet = "2.9.1"
+starknet = "2.9.2"
+openzeppelin = { git = "https://github.com/OpenZeppelin/cairo-contracts.git"}

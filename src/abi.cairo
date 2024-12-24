@@ -1,8 +1,9 @@
 use starknet::{ContractAddress, ClassHash};
 use pragma_lib::types::{
     DataType, AggregationMode, Currency, Pair, PossibleEntries, Checkpoint, SimpleDataType,
-    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData,
+    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData, Assertion
 };
+use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
 
 #[starknet::interface]
 trait IPragmaABI<TContractState> {
@@ -237,4 +238,51 @@ trait IRandomness<TContractState> {
     fn compute_premium_fee(self: @TContractState, caller_address: ContractAddress) -> u128;
     fn get_admin_address(self: @TContractState,) -> ContractAddress;
     fn set_admin_address(ref self: TContractState, new_admin_address: ContractAddress);
+}
+
+#[starknet::interface]
+pub trait IOptimisticOracle<TContractState> {
+    fn assert_truth_with_defaults(
+        ref self: TContractState, claim: ByteArray, asserter: ContractAddress
+    ) -> felt252;
+
+    fn assert_truth(
+        ref self: TContractState,
+        claim: ByteArray,
+        asserter: ContractAddress,
+        callback_recipient: ContractAddress,
+        escalation_manager: ContractAddress,
+        liveness: u64,
+        currency: ERC20ABIDispatcher,
+        bond: u256,
+        identifier: felt252,
+        domain_id: u256
+    ) -> felt252;
+
+    fn dispute_assertion(
+        ref self: TContractState, assertion_id: felt252, disputer: ContractAddress
+    );
+
+    fn settle_assertion(ref self: TContractState, assertion_id: felt252);
+
+    fn get_minimum_bond(self: @TContractState, currency: ContractAddress) -> u256;
+
+    fn stamp_assertion(self: @TContractState, assertion_id: felt252) -> ByteArray;
+
+    fn default_identifier(self: @TContractState,) -> felt252;
+
+    fn get_assertion(self: @TContractState, assertion_id: felt252) -> Assertion;
+
+    fn sync_params(ref self: TContractState, identifier: felt252, currency: ContractAddress);
+
+    fn settle_and_get_assertion_result(ref self: TContractState, assertion_id: felt252) -> bool;
+
+    fn get_assertion_result(self: @TContractState, assertion_id: felt252) -> bool;
+
+    fn set_admin_properties(
+        ref self: TContractState,
+        default_currency: ContractAddress,
+        default_liveness: u64,
+        burned_bond_percentage: u256
+    );
 }
