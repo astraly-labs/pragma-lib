@@ -19,7 +19,7 @@ struct YieldPoint {
     // (1 day for overnight rates and expiration date for futures)
     rate: u128, // The calculated yield rate: either overnight rate
     // or max(0, ((future/spot) - 1) * (365/days to future expiry))
-    source: felt252, // An indicator for the source (str_to_felt encode uppercase one of:
+    source: felt252 // An indicator for the source (str_to_felt encode uppercase one of:
     // "ON" (overnight rate),
 // "FUTURE/SPOT" (future/spot rate),
 // "OTHER" (for future additional data sources))
@@ -40,7 +40,7 @@ struct BaseEntry {
 
 #[derive(Serde, Drop, Copy)]
 struct GenericEntryStorage {
-    timestamp__value: u256
+    timestamp__value: u256,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -101,7 +101,7 @@ enum DataType {
 #[derive(Drop, Copy)]
 enum PossibleEntryStorage {
     Spot: u256, //structure SpotEntryStorage
-    Future: u256, //structure FutureEntryStorage
+    Future: u256 //structure FutureEntryStorage
     //  Option: OptionEntryStorage, //structure OptionEntryStorage
 }
 
@@ -133,7 +133,7 @@ enum ArrayEntry {
 struct Pair {
     id: felt252, // same as key currently (e.g. str_to_felt("ETH/USD") - force uppercase)
     quote_currency_id: felt252, // currency id - str_to_felt encode the ticker
-    base_currency_id: felt252, // currency id - str_to_felt encode the ticker
+    base_currency_id: felt252 // currency id - str_to_felt encode the ticker
 }
 
 #[derive(Serde, Drop, Copy, starknet::Store)]
@@ -142,7 +142,7 @@ struct Currency {
     decimals: u32,
     is_abstract_currency: bool, // True (1) if not a specific token but abstract, e.g. USD or ETH as a whole
     starknet_address: ContractAddress, // optional, e.g. can have synthetics for non-bridged assets
-    ethereum_address: ContractAddress, // optional
+    ethereum_address: ContractAddress // optional
 }
 
 #[derive(Serde, Drop)]

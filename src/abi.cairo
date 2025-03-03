@@ -1,7 +1,7 @@
 use starknet::{ContractAddress, ClassHash};
 use pragma_lib::types::{
     DataType, AggregationMode, Currency, Pair, PossibleEntries, Checkpoint, SimpleDataType,
-    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData, Assertion
+    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData, Assertion,
 };
 use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
 
@@ -10,26 +10,26 @@ trait IPragmaABI<TContractState> {
     fn get_decimals(self: @TContractState, data_type: DataType) -> u32;
     fn get_data_median(self: @TContractState, data_type: DataType) -> PragmaPricesResponse;
     fn get_data_median_for_sources(
-        self: @TContractState, data_type: DataType, sources: Span<felt252>
+        self: @TContractState, data_type: DataType, sources: Span<felt252>,
     ) -> PragmaPricesResponse;
     fn get_data(
-        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode
+        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode,
     ) -> PragmaPricesResponse;
     fn get_data_median_multi(
-        self: @TContractState, data_types: Span<DataType>, sources: Span<felt252>
+        self: @TContractState, data_types: Span<DataType>, sources: Span<felt252>,
     ) -> Span<PragmaPricesResponse>;
     fn get_data_entry(
-        self: @TContractState, data_type: DataType, source: felt252
+        self: @TContractState, data_type: DataType, source: felt252,
     ) -> PossibleEntries;
     fn get_data_for_sources(
         self: @TContractState,
         data_type: DataType,
         aggregation_mode: AggregationMode,
-        sources: Span<felt252>
+        sources: Span<felt252>,
     ) -> PragmaPricesResponse;
     fn get_data_entries(self: @TContractState, data_type: DataType) -> Span<PossibleEntries>;
     fn get_data_entries_for_sources(
-        self: @TContractState, data_type: DataType, sources: Span<felt252>
+        self: @TContractState, data_type: DataType, sources: Span<felt252>,
     ) -> (Span<PossibleEntries>, u64);
     fn get_last_checkpoint_before(
         self: @TContractState,
@@ -43,20 +43,20 @@ trait IPragmaABI<TContractState> {
         quote_currency_id: felt252,
         aggregation_mode: AggregationMode,
         typeof: SimpleDataType,
-        expiration_timestamp: Option::<u64>
+        expiration_timestamp: Option::<u64>,
     ) -> PragmaPricesResponse;
     fn get_publisher_registry_address(self: @TContractState) -> ContractAddress;
     fn get_latest_checkpoint_index(
-        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode
+        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode,
     ) -> (u64, bool);
     fn get_latest_checkpoint(
-        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode
+        self: @TContractState, data_type: DataType, aggregation_mode: AggregationMode,
     ) -> Checkpoint;
     fn get_checkpoint(
         self: @TContractState,
         data_type: DataType,
         checkpoint_index: u64,
-        aggregation_mode: AggregationMode
+        aggregation_mode: AggregationMode,
     ) -> Checkpoint;
     fn get_sources_threshold(self: @TContractState) -> u32;
     fn get_admin_address(self: @TContractState) -> ContractAddress;
@@ -65,16 +65,16 @@ trait IPragmaABI<TContractState> {
     fn publish_data_entries(ref self: TContractState, new_entries: Span<PossibleEntries>);
     fn set_admin_address(ref self: TContractState, new_admin_address: ContractAddress);
     fn update_publisher_registry_address(
-        ref self: TContractState, new_publisher_registry_address: ContractAddress
+        ref self: TContractState, new_publisher_registry_address: ContractAddress,
     );
     fn add_currency(ref self: TContractState, new_currency: Currency);
     fn update_currency(ref self: TContractState, currency_id: felt252, currency: Currency);
     fn add_pair(ref self: TContractState, new_pair: Pair);
     fn set_checkpoint(
-        ref self: TContractState, data_type: DataType, aggregation_mode: AggregationMode
+        ref self: TContractState, data_type: DataType, aggregation_mode: AggregationMode,
     );
     fn set_checkpoints(
-        ref self: TContractState, data_types: Span<DataType>, aggregation_mode: AggregationMode
+        ref self: TContractState, data_types: Span<DataType>, aggregation_mode: AggregationMode,
     );
     fn set_sources_threshold(ref self: TContractState, threshold: u32);
     fn upgrade(ref self: TContractState, impl_hash: ClassHash);
@@ -88,7 +88,7 @@ trait ISummaryStatsABI<TContractState> {
         data_type: DataType,
         start: u64,
         stop: u64,
-        aggregation_mode: AggregationMode
+        aggregation_mode: AggregationMode,
     ) -> (u128, u32);
 
     fn calculate_volatility(
@@ -97,7 +97,7 @@ trait ISummaryStatsABI<TContractState> {
         start_tick: u64,
         end_tick: u64,
         num_samples: u64,
-        aggregation_mode: AggregationMode
+        aggregation_mode: AggregationMode,
     ) -> (u128, u32);
 
     fn calculate_twap(
@@ -118,25 +118,25 @@ trait ISummaryStatsABI<TContractState> {
 #[starknet::interface]
 trait IYieldCurveABI<TContractState> {
     fn get_yield_points(self: @TContractState, decimals: u32) -> Span<YieldPoint>;
-    fn get_admin_address(self: @TContractState,) -> ContractAddress;
-    fn get_oracle_address(self: @TContractState,) -> ContractAddress;
-    fn get_future_spot_pragma_source_key(self: @TContractState,) -> felt252;
+    fn get_admin_address(self: @TContractState) -> ContractAddress;
+    fn get_oracle_address(self: @TContractState) -> ContractAddress;
+    fn get_future_spot_pragma_source_key(self: @TContractState) -> felt252;
     fn get_pair_id(self: @TContractState, idx: u64) -> felt252;
     fn get_pair_id_is_active(self: @TContractState, pair_id: felt252) -> bool;
-    fn get_pair_ids(self: @TContractState,) -> Span<felt252>;
+    fn get_pair_ids(self: @TContractState) -> Span<felt252>;
     fn get_future_expiry_timestamp(self: @TContractState, pair_id: felt252, idx: u64) -> u64;
     fn get_future_expiry_timestamps(self: @TContractState, pair_id: felt252) -> Span<u64>;
     fn get_on_key(self: @TContractState, idx: u64) -> felt252;
     fn get_on_key_is_active(self: @TContractState, on_key: felt252) -> bool;
-    fn get_on_keys(self: @TContractState,) -> Span<felt252>;
+    fn get_on_keys(self: @TContractState) -> Span<felt252>;
     fn get_future_expiry_timestamp_status(
-        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64
+        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64,
     ) -> FutureKeyStatus;
     fn get_future_expiry_timestamp_is_active(
-        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64
+        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64,
     ) -> bool;
     fn get_future_expiry_timestamp_expiry(
-        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64
+        self: @TContractState, pair_id: felt252, future_expiry_timestamp: u64,
     ) -> u64;
 
     //
@@ -153,7 +153,7 @@ trait IYieldCurveABI<TContractState> {
         pair_id: felt252,
         future_expiry_timestamp: u64,
         is_active: bool,
-        expiry_timestamp: u64
+        expiry_timestamp: u64,
     );
     fn set_future_expiry_timestamp_status(
         ref self: TContractState,
@@ -166,7 +166,7 @@ trait IYieldCurveABI<TContractState> {
         ref self: TContractState,
         pair_id: felt252,
         future_expiry_timestamp: u64,
-        new_is_active: bool
+        new_is_active: bool,
     );
 
     fn add_on_key(ref self: TContractState, on_key: felt252, is_active: bool);
@@ -180,7 +180,7 @@ trait IRandomness<TContractState> {
         ref self: TContractState,
         requestor_address: ContractAddress,
         request_id: u64,
-        new_status: RequestStatus
+        new_status: RequestStatus,
     );
     fn request_random(
         ref self: TContractState,
@@ -189,7 +189,7 @@ trait IRandomness<TContractState> {
         callback_fee_limit: u128,
         publish_delay: u64,
         num_words: u64,
-        calldata: Array<felt252>
+        calldata: Array<felt252>,
     ) -> u64;
     fn cancel_random_request(
         ref self: TContractState,
@@ -199,7 +199,7 @@ trait IRandomness<TContractState> {
         minimum_block_number: u64,
         callback_address: ContractAddress,
         callback_fee_limit: u128,
-        num_words: u64
+        num_words: u64,
     );
     fn submit_random(
         ref self: TContractState,
@@ -212,14 +212,14 @@ trait IRandomness<TContractState> {
         callback_fee: u128,
         random_words: Span<felt252>,
         proof: Span<felt252>,
-        calldata: Array<felt252>
+        calldata: Array<felt252>,
     );
     fn get_pending_requests(
-        self: @TContractState, requestor_address: ContractAddress, offset: u64, max_len: u64
+        self: @TContractState, requestor_address: ContractAddress, offset: u64, max_len: u64,
     ) -> Span<felt252>;
 
     fn get_request_status(
-        self: @TContractState, requestor_address: ContractAddress, request_id: u64
+        self: @TContractState, requestor_address: ContractAddress, request_id: u64,
     ) -> RequestStatus;
     fn requestor_current_index(self: @TContractState, requestor_address: ContractAddress) -> u64;
     fn get_public_key(self: @TContractState, requestor_address: ContractAddress) -> felt252;
@@ -228,7 +228,7 @@ trait IRandomness<TContractState> {
     fn upgrade(ref self: TContractState, impl_hash: ClassHash);
     fn refund_operation(ref self: TContractState, caller_address: ContractAddress, request_id: u64);
     fn get_total_fees(
-        self: @TContractState, caller_address: ContractAddress, request_id: u64
+        self: @TContractState, caller_address: ContractAddress, request_id: u64,
     ) -> u256;
     fn get_out_of_gas_requests(
         self: @TContractState, requestor_address: ContractAddress,
@@ -236,14 +236,14 @@ trait IRandomness<TContractState> {
     fn withdraw_funds(ref self: TContractState, receiver_address: ContractAddress);
     fn get_contract_balance(self: @TContractState) -> u256;
     fn compute_premium_fee(self: @TContractState, caller_address: ContractAddress) -> u128;
-    fn get_admin_address(self: @TContractState,) -> ContractAddress;
+    fn get_admin_address(self: @TContractState) -> ContractAddress;
     fn set_admin_address(ref self: TContractState, new_admin_address: ContractAddress);
 }
 
 #[starknet::interface]
 pub trait IOptimisticOracle<TContractState> {
     fn assert_truth_with_defaults(
-        ref self: TContractState, claim: ByteArray, asserter: ContractAddress
+        ref self: TContractState, claim: ByteArray, asserter: ContractAddress,
     ) -> felt252;
 
     fn assert_truth(
@@ -256,11 +256,11 @@ pub trait IOptimisticOracle<TContractState> {
         currency: ERC20ABIDispatcher,
         bond: u256,
         identifier: felt252,
-        domain_id: u256
+        domain_id: u256,
     ) -> felt252;
 
     fn dispute_assertion(
-        ref self: TContractState, assertion_id: felt252, disputer: ContractAddress
+        ref self: TContractState, assertion_id: felt252, disputer: ContractAddress,
     );
 
     fn settle_assertion(ref self: TContractState, assertion_id: felt252);
@@ -269,7 +269,7 @@ pub trait IOptimisticOracle<TContractState> {
 
     fn stamp_assertion(self: @TContractState, assertion_id: felt252) -> ByteArray;
 
-    fn default_identifier(self: @TContractState,) -> felt252;
+    fn default_identifier(self: @TContractState) -> felt252;
 
     fn get_assertion(self: @TContractState, assertion_id: felt252) -> Assertion;
 
@@ -283,6 +283,6 @@ pub trait IOptimisticOracle<TContractState> {
         ref self: TContractState,
         default_currency: ContractAddress,
         default_liveness: u64,
-        burned_bond_percentage: u256
+        burned_bond_percentage: u256,
     );
 }
