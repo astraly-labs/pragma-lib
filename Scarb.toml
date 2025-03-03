@@ -8,4 +8,4 @@ homepage = "https://github.com/astraly-labs/pragma-oracle/tree/main"
 
 [dependencies]
 starknet = "2.10.1"
-openzeppelin = { git = "https://github.com/OpenZeppelin/cairo-contracts.git"}
+openzeppelin = "1.0.0"
