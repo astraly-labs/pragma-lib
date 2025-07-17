@@ -1,9 +1,9 @@
-use starknet::{ContractAddress, ClassHash};
-use pragma_lib::types::{
-    DataType, AggregationMode, Currency, Pair, PossibleEntries, Checkpoint, SimpleDataType,
-    PragmaPricesResponse, YieldPoint, FutureKeyStatus, RequestStatus, OptionsFeedData, Assertion,
-};
 use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
+use pragma_lib::types::{
+    AggregationMode, Assertion, Checkpoint, Currency, DataType, FutureKeyStatus, OptionsFeedData,
+    Pair, PossibleEntries, PragmaPricesResponse, RequestStatus, SimpleDataType, YieldPoint,
+};
+use starknet::{ClassHash, ContractAddress};
 
 #[starknet::interface]
 trait IPragmaABI<TContractState> {
@@ -43,7 +43,7 @@ trait IPragmaABI<TContractState> {
         quote_currency_id: felt252,
         aggregation_mode: AggregationMode,
         typeof: SimpleDataType,
-        expiration_timestamp: Option::<u64>,
+        expiration_timestamp: Option<u64>,
     ) -> PragmaPricesResponse;
     fn get_publisher_registry_address(self: @TContractState) -> ContractAddress;
     fn get_latest_checkpoint_index(
