@@ -1,4 +1,4 @@
-use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
+use openzeppelin::interfaces::token::erc20::ERC20ABIDispatcher;
 use pragma_lib::types::{
     AggregationMode, Assertion, Checkpoint, Currency, DataType, FutureKeyStatus, OptionsFeedData,
     Pair, PossibleEntries, PragmaPricesResponse, RequestStatus, SimpleDataType, YieldPoint,
