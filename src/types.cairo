@@ -1,4 +1,4 @@
-use openzeppelin::token::erc20::interface::ERC20ABIDispatcher;
+use openzeppelin::interfaces::token::erc20::ERC20ABIDispatcher;
 use starknet::{ClassHash, ContractAddress};
 
 #[derive(Serde, Drop, Copy, PartialEq, starknet::Store)]
